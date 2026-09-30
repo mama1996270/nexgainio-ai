@@ -1775,6 +1775,28 @@ body.nav-open .nav-toggle .icon-close {
   margin-top: 18px;
 }
 
+/* ---- Payment-method chooser + Card Fields panel (checkout.html) ---- */
+.payment-method-panel {
+  margin-top: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  background: var(--surface);
+}
+
+.payment-method-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.payment-method-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* ---- Data tables (orders / invoices) ---- */
 .table-wrap {
   overflow-x: auto;

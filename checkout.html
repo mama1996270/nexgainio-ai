@@ -89,6 +89,14 @@
           <p class="checkout-terms">By continuing you agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="refund.html" target="_blank" rel="noopener">Refund Policy</a>.</p>
         </div>
 
+        <div id="js-payment-method-chooser" class="payment-method-panel" hidden>
+          <p class="payment-method-label">Choose a payment method</p>
+          <div class="payment-method-actions">
+            <button class="btn btn-primary btn-block" id="js-pay-paypal" type="button" hidden>Pay with PayPal</button>
+            <button class="btn btn-secondary btn-block" id="js-pay-card" type="button" hidden>Pay with Credit or Debit Card</button>
+          </div>
+        </div>
+
         <div id="js-mock-panel" class="dev-mode-panel" hidden>
           <span class="dev-mode-badge">Development / Test Mode</span>
           <p>No real payment provider is connected. These buttons simulate a payment outcome so the rest of the flow can be tested end-to-end.</p>
@@ -120,6 +128,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="assets/js/auth.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/paypal-config.js"></script>
 <script>
 (function () {
   "use strict";
@@ -135,6 +144,25 @@
   function show(id) {
     document.getElementById(id).hidden = false;
   }
+
+  function hide(id) {
+    document.getElementById(id).hidden = true;
+  }
+
+  // Inline PayPal Advanced Card Fields for subscriptions was investigated and
+  // rejected: paypal.CardFields() does not support a createSubscription
+  // callback (that's paypal.Buttons()-only, per PayPal's own docs) - it only
+  // supports createOrder or createVaultSetupToken, neither of which attaches
+  // to an already-created Subscriptions-API subscription the way this
+  // codebase's PayPal integration works. There is also no PayPal-documented
+  // way to force their hosted approval page straight to a card-entry screen -
+  // PayPal's own docs state Subscriptions/recurring payments "typically
+  // don't support guest checkout" and that whether a card option appears is
+  // decided by PayPal itself (buyer risk/history/cookies), never by a
+  // merchant-supplied parameter. The "Pay with PayPal" and "Pay with Credit
+  // or Debit Card" buttons below therefore both go to the exact same
+  // approval_url - offered as two familiar labels for the one destination,
+  // not two different flows.
 
   function formatAmount(cents, currency) {
     return (cents / 100).toLocaleString(undefined, { style: "currency", currency: currency || "EUR" });
@@ -271,18 +299,37 @@
       return;
     }
 
-    if (checkout.approval_url) {
-      // A real provider (PayPal) already created its own hosted checkout for
-      // this session - send the customer straight there instead of ever
-      // showing the mock panel. This is a forward redirect to begin payment,
-      // not a confirmation of anything.
+    show("js-checkout-content");
+
+    // A real provider (PayPal) already created its own subscription for
+    // this session - both buttons below send the customer to the SAME
+    // PayPal-hosted approval page to authorize it. There is only one such
+    // page/URL per subscription; PayPal (not this site) decides whether it
+    // offers a card-entry option there, and PayPal's own docs are explicit
+    // that Subscriptions/recurring payments "typically don't support guest
+    // checkout" - so the "Pay with Credit or Debit Card" button cannot
+    // guarantee a card-only screen, it's the same destination as "Pay with
+    // PayPal", offered as a second, more familiar label for buyers who
+    // don't think of card payment as "using PayPal".
+    function goToPayPalApproval() {
       document.getElementById("js-redirect-link").href = checkout.approval_url;
+      hide("js-checkout-content");
       show("js-redirecting");
       window.location.href = checkout.approval_url;
-      return;
     }
 
-    show("js-checkout-content");
+    var canPayPal = !!checkout.approval_url;
+    if (canPayPal) {
+      show("js-payment-method-chooser");
+      var payPalBtn = document.getElementById("js-pay-paypal");
+      payPalBtn.hidden = false;
+      payPalBtn.addEventListener("click", goToPayPalApproval);
+
+      var cardBtn = document.getElementById("js-pay-card");
+      cardBtn.hidden = false;
+      cardBtn.addEventListener("click", goToPayPalApproval);
+      return;
+    }
 
     if (checkout.mock_payments_enabled) {
       show("js-mock-panel");

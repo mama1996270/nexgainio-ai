@@ -43,7 +43,7 @@
     <div class="container">
       <h1 id="js-title">Payment was cancelled</h1>
       <div class="auth-card" style="text-align:center;">
-        <p id="js-body">You cancelled the checkout before it completed. No charge was made — nothing here is real yet anyway, since payments are still in test mode.</p>
+        <p id="js-body">No charge was made because you cancelled the payment before it was completed.</p>
         <div class="dash-actions">
           <a class="btn btn-primary" href="index.html#pricing">Return to Pricing</a>
           <a class="btn btn-ghost" href="account.html">Go to Account</a>
@@ -70,7 +70,7 @@
   if (reason === "failed") {
     document.getElementById("js-title").textContent = "Your payment could not be completed";
     document.getElementById("js-body").textContent =
-      "The simulated payment failed. No charge was made — nothing here is real yet anyway, since payments are still in test mode. You can try again from the pricing section.";
+      "The simulated payment failed. No charge was made because the payment could not be completed. You can try again from the pricing section.";
   }
 })();
 </script>
