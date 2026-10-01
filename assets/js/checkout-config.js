@@ -8,7 +8,7 @@
  *
  * Expected replacement values (once available):
  *   proMonthly / proYearly -> Lemon Squeezy hosted checkout URLs for the
- *                             SellerPilot AI Pro "Pro" variant (monthly /
+ *                             NEXGAINIO AI Pro "Pro" variant (monthly /
  *                             yearly), e.g. "https://sellerpilot.lemonsqueezy.com/checkout/buy/xxxx"
  *   free                   -> Should stay pointed at the in-app trial/download
  *                             flow, not a paid checkout.
@@ -19,7 +19,7 @@ window.SELLERPILOT_CHECKOUT = {
   free: "download.html",
   proMonthly: "#pro-checkout-placeholder",
   proYearly: "#pro-checkout-placeholder",
-  enterprise: "mailto:sales@sellerpilotai.pro?subject=SellerPilot%20AI%20Pro%20Enterprise%20Inquiry",
+  enterprise: "mailto:sales@sellerpilotai.pro?subject=NEXGAINIO%20AI%20Pro%20Enterprise%20Inquiry",
 };
 
 /**
