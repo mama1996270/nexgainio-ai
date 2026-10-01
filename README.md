@@ -1,9 +1,9 @@
-# sellerpilot-ai
+# nexgainio-ai
 
 Official marketing/landing site for **NEXGAINIO AI Pro** — AI-powered listing
 generation, bulk automation, export and publishing for e-commerce sellers.
 
-Served via GitHub Pages from the `main` branch root: https://mama1996270.github.io/sellerpilot-ai/
+Served via GitHub Pages from the `main` branch root: https://mama1996270.github.io/nexgainio-ai/
 
 ## Structure
 
