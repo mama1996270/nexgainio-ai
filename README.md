@@ -3,7 +3,7 @@
 Official marketing/landing site for **NEXGAINIO AI Pro** — AI-powered listing
 generation, bulk automation, export and publishing for e-commerce sellers.
 
-Served via GitHub Pages from the `main` branch root: https://mama1996270.github.io/nexgainio-ai/
+Served via GitHub Pages from the `main` branch root: https://nexgainiopro.com/
 
 ## Structure
 
@@ -49,3 +49,4 @@ Payment integration is **not implemented yet**. To wire up Lemon Squeezy later:
 
 GitHub Pages serves directly from `main` / root. Pushing to `main` deploys
 automatically - no CI workflow required.
+
