@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
   <style>
-  /* إلغاء التثبيت العائم لشارة Product Hunt وإجبارها على البقاء داخل الفوتر */
+  /* إخفاء أي شارة عائمة لـ Product Hunt في الزاوية وإظهارها داخل الفوتر فقط */
+  div[style*="position: fixed"], 
+  a[href*="producthunt.com"][style*="position: fixed"] {
+    position: static !important;
+    display: inline-block !important;
+  }
   .footer-bottom a[href*="producthunt.com"] {
     position: static !important;
     display: inline-block !important;
